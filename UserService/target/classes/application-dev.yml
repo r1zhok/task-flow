@@ -1,0 +1,5 @@
+keycloak:
+  server-url: http://localhost:7080
+  realm: task-flow
+  client-id: user-service-dev
+  client-secret: yg1D4fveyUnfJKmhyfdzKhe3v7pvlW7O

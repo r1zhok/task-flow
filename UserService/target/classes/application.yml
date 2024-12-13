@@ -1,0 +1,14 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: user-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+jwt:
+  auth:
+    converter:
+      resource-id: authenticationClientId

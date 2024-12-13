@@ -1,0 +1,5 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  client-id: user-service-docker
+  client-secret: hqmYo0yw30J310JarCjsURODOsHwZ3A6
