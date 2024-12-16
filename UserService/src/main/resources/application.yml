@@ -3,12 +3,43 @@ server:
 spring:
   application:
     name: user-service
+  thymeleaf:
+    enabled: false
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+            user-name-attribute: preferred_username
+        registration:
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
 jwt:
   auth:
     converter:
-      resource-id: authenticationClientId
+      resource-id: ${keycloak.admin-client-id}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.server-url}/eureka/
+  instance:
+    prefer-ip-address: true
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'

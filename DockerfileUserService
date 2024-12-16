@@ -8,6 +8,7 @@ COPY pom.xml /app
 
 # Копіюємо весь мікросервіс UserService, включаючи дочірній pom.xml
 COPY ./UserService /app/UserService
+COPY ./EurekaService /app/EurekaService
 
 # Виконуємо ціль mvn install для завантаження залежностей
 RUN mvn -f /app/pom.xml clean install -DskipTests

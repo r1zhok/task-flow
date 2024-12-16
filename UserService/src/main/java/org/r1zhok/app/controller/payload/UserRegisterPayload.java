@@ -19,7 +19,6 @@ public record UserRegisterPayload(
 
         @Email
         @NotBlank(message = "Email is mandatory")
-        @Size(min = 3, max = 20, message = "Email must be in range of 3 to 20 characters")
         String email,
 
         @NotBlank(message = "Password is mandatory")

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.r1zhok.app.controller.payload.UserLoginPayload;
 import org.r1zhok.app.controller.payload.UserRegisterPayload;
+import org.r1zhok.app.controller.response.AllUsersResponse;
 import org.r1zhok.app.controller.response.UserInfoResponse;
 import org.r1zhok.app.exception.UserAlreadyRegisteredException;
 import org.r1zhok.app.exception.UserCreationFailedException;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private final KeycloakService keycloakService;
 
     @Override
-    public List<UserInfoResponse> getAllUsers() {
+    public List<AllUsersResponse> getAllUsers() {
         return mapper.toUsers(keycloakService.getUsers());
     }
 
@@ -61,10 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getRoles() {
-        return null;
+    public void setRole(String principalName, List<String> roles) {
+        keycloakService.setRoles(principalName, roles);
     }
 
     @Override
-    public void setRole() {}
+    public void deleteUser(String id) throws UserIdNotFoundException {
+        keycloakService.deleteUser(id);
+    }
 }

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.r1zhok.app.controller.payload.UserLoginPayload;
 import org.r1zhok.app.controller.payload.UserRegisterPayload;
-import org.r1zhok.app.controller.response.UserInfoResponse;
+import org.r1zhok.app.controller.response.AllUsersResponse;
 import org.r1zhok.app.exception.UserAlreadyRegisteredException;
 import org.r1zhok.app.exception.UserCreationFailedException;
 import org.r1zhok.app.exception.UserIdNotFoundException;
@@ -29,11 +29,7 @@ public class UserRestController {
     *  for admin purposes (get all users and set up roles, etc)
     * */
     @GetMapping()
-    public ResponseEntity<List<UserInfoResponse>> getAllUsers(Principal principal) {
-        if (principal == null) {
-            userIsNotAuthenticatedLog();
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<AllUsersResponse>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
@@ -53,10 +49,6 @@ public class UserRestController {
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(Principal principal) {
-        if (principal == null) {
-            userIsNotAuthenticatedLog();
-            return ResponseEntity.badRequest().body("User is not authenticated");
-        }
         log.info("user is {}", principal.getName());
         return ResponseEntity.ok(userService.getProfile(principal.getName()));
     }
@@ -64,26 +56,35 @@ public class UserRestController {
     @PutMapping("/profile")
     public ResponseEntity<?> updateProfile(@Valid @RequestBody UserRegisterPayload payload, Principal principal)
             throws UserIdNotFoundException {
-        if (principal == null) {
-            userIsNotAuthenticatedLog();
-            return ResponseEntity.badRequest().body("User is not authenticated");
-        }
         log.info("user update profile {}", principal.getName());
         userService.updateProfile(payload, principal.getName());
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/roles")
-    public ResponseEntity<?> getRoles() {
-        return null;
-    }
-
+    /*
+    * for admin purposes (assign role to user)
+    * */
     @PutMapping("/assign-role/{id}")
-    public ResponseEntity<?> assignRole(@PathVariable long id) {
-        return null;
+    public ResponseEntity<Void> assignRole(@PathVariable String id, @RequestBody List<String> roles) {
+        log.info("user assign role {}", id);
+        userService.setRole(id, roles);
+        return ResponseEntity.noContent().build();
     }
 
-    private void userIsNotAuthenticatedLog() {
-        log.info("user is not authenticated");
+    @DeleteMapping("/profile")
+    public ResponseEntity<Void> deleteProfile(Principal principal) throws UserIdNotFoundException {
+        log.info("user delete profile {}", principal.getName());
+        userService.deleteUser(principal.getName());
+        return ResponseEntity.noContent().build();
+    }
+
+    /*
+    * for admin purposes (delete user)
+    * */
+    @DeleteMapping("/profile/{id}")
+    public ResponseEntity<Void> deleteProfile(@PathVariable String id) throws UserIdNotFoundException {
+        log.info("admin delete user profile {}", id);
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

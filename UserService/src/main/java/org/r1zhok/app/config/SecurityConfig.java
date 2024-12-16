@@ -21,7 +21,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/users/assign-role/**").hasRole("ADMIN")
+                        .requestMatchers("/api/users/profile").authenticated()
+                        .requestMatchers("/api/users/assign-role/**", "/api/users", "/v3/api-docs/**",
+                                "/configuration/**", "/swagger-ui/**",
+                                "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**"
+                        ).hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer

@@ -2,6 +2,7 @@ package org.r1zhok.app.service;
 
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotAuthorizedException;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.r1zhok.app.controller.payload.UserLoginPayload;
 import org.r1zhok.app.exception.UserIdNotFoundException;
@@ -15,6 +16,10 @@ public interface KeycloakService {
     Integer createUser(UserRepresentation userRepresentation);
 
     String loginUser(UserLoginPayload payload) throws NotAuthorizedException, BadRequestException;
+
+    List<RoleRepresentation> getRoles(String userId);
+
+    void setRoles(String userId, List<String> roles);
 
     UserRepresentation getProfile(String userId);
 

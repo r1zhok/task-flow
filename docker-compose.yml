@@ -10,6 +10,20 @@ services:
       SPRING_PROFILES_ACTIVE: docker
     networks:
       - local_network
+    depends_on:
+      - eureka
+
+  eureka:
+    container_name: eureka-service
+    build:
+      context: .
+      dockerfile: DockerfileEurekaService
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - local_network
 
 #  database_users:
 #    container_name: users_db

@@ -1,0 +1,22 @@
+FROM maven:3.9.5-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+COPY pom.xml /app
+
+COPY ./EurekaService /app/EurekaService
+COPY ./UserService /app/UserService
+
+RUN mvn -f /app/pom.xml clean install -DskipTests
+
+RUN mvn -f /app/pom.xml clean install -DskipTests
+
+FROM eclipse-temurin:21
+
+WORKDIR /app
+
+COPY --from=build /app/EurekaService/target/EurekaService-1.0-SNAPSHOT.jar app.jar
+
+EXPOSE 8761
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

@@ -1,9 +1,12 @@
 package org.r1zhok.app.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.r1zhok.app.controller.payload.UserRegisterPayload;
+import org.r1zhok.app.controller.response.AllUsersResponse;
 import org.r1zhok.app.controller.response.UserInfoResponse;
+import org.r1zhok.app.service.KeycloakServiceImpl;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -12,17 +15,22 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class UserMapperImpl implements UserMapper {
 
+    private final KeycloakServiceImpl keycloakService;
+
     @Override
-    public List<UserInfoResponse> toUsers(List<UserRepresentation> payload) {
+    public List<AllUsersResponse> toUsers(List<UserRepresentation> payload) {
         return payload.stream().map(element ->
-                new UserInfoResponse(
+                new AllUsersResponse(
+                        element.getId(),
                         element.getUsername(),
                         element.getFirstName(),
                         element.getLastName(),
                         Instant.ofEpochMilli(element.getCreatedTimestamp())
-                                .atZone(ZoneId.systemDefault()).toLocalDateTime()
+                                .atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                        keycloakService.getRoles(element.getId()).toString()
                 )
         ).toList();
     }
@@ -51,7 +59,8 @@ public class UserMapperImpl implements UserMapper {
                 userRepresentation.getFirstName(),
                 userRepresentation.getLastName(),
                 Instant.ofEpochMilli(userRepresentation.getCreatedTimestamp())
-                        .atZone(ZoneId.systemDefault()).toLocalDateTime()
+                        .atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                keycloakService.getRoles(userRepresentation.getId()).toString()
         );
     }
 }

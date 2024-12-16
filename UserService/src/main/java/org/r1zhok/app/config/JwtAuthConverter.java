@@ -54,17 +54,19 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             }
         }
 
+        log.info("!!!!!!!!!!!!!!!!!!!!");
+
         if(realmAccess != null && realmAccess.containsKey("roles")){
             realmRoles = (Collection<String>) realmAccess.get("roles");
             allRoles.addAll(realmRoles);
         }
         if (allRoles.isEmpty() || !Objects.equals(resourceId,jwt.getClaim("azp")) ) {
-
             return Set.of();
         }
 
+        log.info(allRoles.toString());
         return allRoles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
                 .collect(Collectors.toSet());
     }
 }

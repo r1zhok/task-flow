@@ -4,6 +4,7 @@ import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotAuthorizedException;
 import org.r1zhok.app.controller.payload.UserLoginPayload;
 import org.r1zhok.app.controller.payload.UserRegisterPayload;
+import org.r1zhok.app.controller.response.AllUsersResponse;
 import org.r1zhok.app.controller.response.UserInfoResponse;
 import org.r1zhok.app.exception.UserAlreadyRegisteredException;
 import org.r1zhok.app.exception.UserCreationFailedException;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserInfoResponse> getAllUsers();
+    List<AllUsersResponse> getAllUsers();
 
     void registerUser(UserRegisterPayload payload) throws UserAlreadyRegisteredException, UserCreationFailedException;
 
@@ -23,7 +24,7 @@ public interface UserService {
 
     void updateProfile(UserRegisterPayload payload, String principalName) throws UserIdNotFoundException;
 
-    List<String> getRoles();
+    void setRole(String id, List<String> roles);
 
-    void setRole();
+    void deleteUser(String id) throws UserIdNotFoundException;
 }
