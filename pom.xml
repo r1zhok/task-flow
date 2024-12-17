@@ -58,16 +58,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>eureka-service-only</id>
-            <modules>
-                <module>EurekaService</module>
-            </modules>
-        </profile>
-    </profiles>
-
-
     <build>
         <plugins>
             <plugin>

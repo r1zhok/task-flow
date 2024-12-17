@@ -1,6 +1,7 @@
 package org.r1zhok.app.config;
 
 import http.DefaultEurekaClientHttpRequestFactorySupplier;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.eureka.RestTemplateTimeoutProperties;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 
 import java.util.List;
 
+@Slf4j
 @Configuration
 public class DiscoveryBeans {
 
@@ -38,7 +40,6 @@ public class DiscoveryBeans {
                                         .withClientRegistrationId("discovery")
                                         .principal(clientId)
                                         .build());
-
                         request.setHeader(HttpHeaders.AUTHORIZATION,
                                 "Bearer %s".formatted(authorizedClient.getAccessToken().getTokenValue()));
                     }

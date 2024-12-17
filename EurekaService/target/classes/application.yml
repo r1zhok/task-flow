@@ -15,16 +15,9 @@ spring:
             issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
         registration:
           keycloak:
-            client-id: ${keycloak.client-id}
+            client-id: ${keycloak.eureka-client-id}
             client-secret: ${keycloak.client-secret}
             authorization-grant-type: client_credentials
-          login:
-            provider: keycloak
-            client-id: ${keycloak.client-id}
-            client-secret: ${keycloak.client-secret}
-            scope:
-              - openid
-              - microprofile-jwt
 server:
   port: 8761
 eureka:

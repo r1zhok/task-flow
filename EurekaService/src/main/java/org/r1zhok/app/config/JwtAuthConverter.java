@@ -62,7 +62,6 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
         if (allRoles.isEmpty() || !Objects.equals(resourceId,jwt.getClaim("azp")) ) {
             return Set.of();
         }
-
         return allRoles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))
                 .collect(Collectors.toSet());
