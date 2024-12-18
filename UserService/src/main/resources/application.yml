@@ -5,6 +5,14 @@ spring:
     name: user-service
   thymeleaf:
     enabled: false
+  boot:
+    admin:
+      client:
+        url: http://localhost:8085
+        instance:
+          name: user-service
+          service-host-type: ip
+        enabled: true
   security:
     oauth2:
       resourceserver:
@@ -23,6 +31,13 @@ spring:
             authorization-grant-type: client_credentials
             scope:
               - discovery
+          metrics:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
 jwt:
   auth:
     converter:

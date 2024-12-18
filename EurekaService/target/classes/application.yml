@@ -16,8 +16,15 @@ spring:
         registration:
           keycloak:
             client-id: ${keycloak.eureka-client-id}
-            client-secret: ${keycloak.client-secret}
+            client-secret: ${keycloak.eureka-client-secret}
             authorization-grant-type: client_credentials
+          metrics:
+            provider: keycloak
+            client-id: ${keycloak.eureka-client-id}
+            client-secret: ${keycloak.eureka-client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
 server:
   port: 8761
 eureka:
