@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.r1zhok.app.config.KafkaSender;
 import org.r1zhok.app.controller.payload.TaskPayload;
 import org.r1zhok.app.controller.response.TaskDetailResponse;
 import org.r1zhok.app.controller.response.TaskResponse;
@@ -23,14 +24,18 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    private final TaskRepository taskRepository;
+    private final KafkaSender kafkaSender;
 
     private final TaskMapper taskMapper;
+
+    private final TaskRepository taskRepository;
+
 
     @Override
     @Transactional
     public void createTask(TaskPayload task, String userId) {
         taskRepository.save(taskMapper.convertPayloadToEntity(task, userId));
+        kafkaSender.sendMessage("createTask", task.title());
     }
 
     @Override

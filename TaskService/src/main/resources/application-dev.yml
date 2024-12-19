@@ -3,5 +3,8 @@ keycloak:
   realm: task-flow
   client-id: task-service
   client-secret: KD9ffYV1NEmjeVxhCqxDg5sEKBPI0T4y
+  user-client-id: user-service
 eureka:
   server-url: http://localhost:8761
+kafka:
+  bootstrap-servers: localhost:9092

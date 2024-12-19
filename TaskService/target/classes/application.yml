@@ -47,6 +47,11 @@ spring:
         provider:
           keycloak:
             issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
+tpd:
+  topic-name: task-notification-topic
+  messages-per-request: 10
 management:
   health:
     livenessstate:

@@ -22,9 +22,6 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
 
     private final JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
 
-    @Value("${jwt.auth.converter.resource-id}")
-    private String resourceId;
-
     @Override
     public AbstractAuthenticationToken convert(Jwt jwt) {
         Collection<GrantedAuthority> authorities = Stream.concat(
@@ -59,7 +56,7 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             realmRoles = (Collection<String>) realmAccess.get("roles");
             allRoles.addAll(realmRoles);
         }
-        if (allRoles.isEmpty() || !Objects.equals(resourceId, jwt.getClaim("azp"))) {
+        if (allRoles.isEmpty()) {
             return Set.of();
         }
         return allRoles.stream()
