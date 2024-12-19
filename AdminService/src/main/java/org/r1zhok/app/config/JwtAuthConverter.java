@@ -44,22 +44,22 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
 
         Collection<String> allRoles = new ArrayList<>();
         Collection<String> resourceRoles;
-        Collection<String> realmRoles;
+        Collection<String> realmRoles ;
 
-        if (resourceAccess != null && resourceAccess.get("account") != null) {
-            Map<String, Object> account = (Map<String, Object>) resourceAccess.get("account");
-            if (account.containsKey("roles")) {
+        if(resourceAccess != null && resourceAccess.get("account") != null){
+            Map<String,Object> account =  (Map<String,Object>) resourceAccess.get("account");
+            if(account.containsKey("roles") ){
                 resourceRoles = (Collection<String>) account.get("roles");
                 allRoles.addAll(resourceRoles);
             }
         }
 
 
-        if (realmAccess != null && realmAccess.containsKey("roles")) {
+        if(realmAccess != null && realmAccess.containsKey("roles")){
             realmRoles = (Collection<String>) realmAccess.get("roles");
             allRoles.addAll(realmRoles);
         }
-        if (allRoles.isEmpty() || !Objects.equals(resourceId, jwt.getClaim("azp"))) {
+        if (allRoles.isEmpty() || !Objects.equals(resourceId,jwt.getClaim("azp")) ) {
             return Set.of();
         }
         return allRoles.stream()

@@ -1,0 +1,8 @@
+keycloak:
+  server-url: http://localhost:7080
+  realm: task-flow
+  admin-client-id: admin-service
+  admin-client-secret: 7JMQVQxCcnwa9zL4S8zJ0ugoLXKY1AC0
+  client-id: user-service
+eureka:
+  server-url: http://localhost:8761

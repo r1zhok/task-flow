@@ -1,8 +1,8 @@
+server:
+  port: 8085
 spring:
-  thymeleaf:
-    enabled: false
   application:
-    name: eureka-service
+    name: admin-service
   security:
     oauth2:
       resourceserver:
@@ -11,30 +11,21 @@ spring:
       client:
         provider:
           keycloak:
-            user-name-attribute: preferred_username
             issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
         registration:
           keycloak:
-            client-id: ${keycloak.eureka-client-id}
-            client-secret: ${keycloak.eureka-client-secret}
-            authorization-grant-type: client_credentials
-          metrics:
-            provider: keycloak
-            client-id: ${keycloak.eureka-client-id}
-            client-secret: ${keycloak.eureka-client-secret}
+            client-id: ${keycloak.admin-client-id}
+            client-secret: ${keycloak.admin-client-secret}
             authorization-grant-type: client_credentials
             scope:
               - metrics
-server:
-  port: 8761
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    register-with-eureka: false
-    fetch-registry: false
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.admin-client-id}
+            client-secret: ${keycloak.admin-client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
 jwt:
   auth:
     converter:
@@ -46,3 +37,9 @@ management:
         include:
           - health
           - prometheus
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.server-url}/eureka/
+  instance:
+    prefer-ip-address: true
