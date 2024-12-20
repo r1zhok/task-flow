@@ -9,6 +9,7 @@ import org.r1zhok.app.controller.payload.TaskPayload;
 import org.r1zhok.app.controller.response.TaskDetailResponse;
 import org.r1zhok.app.controller.response.TaskResponse;
 import org.r1zhok.app.entity.Status;
+import org.r1zhok.app.entity.TaskEntity;
 import org.r1zhok.app.mapper.TaskMapper;
 import org.r1zhok.app.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -66,12 +67,15 @@ public class TaskServiceImpl implements TaskService {
                             throw new NoSuchElementException();
                         }
                 );
+        kafkaSender.sendMessage("updateTask", task.title());
     }
 
     @Override
     @Transactional
     public void deleteTask(Long id) {
+        TaskEntity task = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found"));
         taskRepository.deleteById(id);
+        kafkaSender.sendMessage("deleteTask", task.getTitle());
     }
 
     @Override
@@ -91,6 +95,7 @@ public class TaskServiceImpl implements TaskService {
         }, () -> {
             throw new NoSuchElementException();
         });
+        kafkaSender.sendMessage("assignTask", userId);
     }
 
     @Override

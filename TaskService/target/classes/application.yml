@@ -68,7 +68,3 @@ eureka:
   client:
     service-url:
       defaultZone: ${eureka.server-url}/eureka/
-jwt:
-  auth:
-    converter:
-      resource-id: ${keycloak.client-id}

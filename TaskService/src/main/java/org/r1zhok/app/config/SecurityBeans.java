@@ -34,7 +34,7 @@ public class SecurityBeans {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/task/create", "/api/tasks/delete/",
+                        .requestMatchers("/api/tasks/create", "/api/tasks/delete/",
                                 "/api/tasks/update", "/api/tasks/list", "/api/tasks/detail/",
                                 "/api/tasks/set-status/")
                         .authenticated()
