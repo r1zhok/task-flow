@@ -1,0 +1,9 @@
+keycloak:
+  server-url: http://localhost:7080
+  realm: task-flow
+  client-id: task-service
+  client-secret: 5apT4emSMGxZc43kPieWg789hEAP4WW9
+eureka:
+  server-url: http://localhost:8761
+kafka:
+  bootstrap-servers: localhost:9092

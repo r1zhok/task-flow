@@ -39,3 +39,10 @@ jwt:
   auth:
     converter:
       resource-id: ${keycloak.client-id}
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus

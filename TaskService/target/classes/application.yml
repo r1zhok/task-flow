@@ -1,0 +1,70 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: task-service
+  boot:
+    admin:
+      client:
+        url: http://localhost:8085
+        instance:
+          name: catalogue-service
+          service-host-type: ip
+        enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/task_db
+    username: user
+    password: password
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+      client:
+        registration:
+          keycloak:
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+          metrics:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
+tpd:
+  topic-name: task-notification-topic
+  messages-per-request: 10
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${eureka.server-url}/eureka/
