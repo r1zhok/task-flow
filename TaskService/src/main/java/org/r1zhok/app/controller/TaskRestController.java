@@ -59,7 +59,7 @@ public class TaskRestController {
     }
 
     @PutMapping("/assign/{taskId}/{userId}")
-    public ResponseEntity<?> assignTask(Long taskId, String userId) {
+    public ResponseEntity<?> assignTask(@PathVariable Long taskId, @PathVariable String userId) {
         log.info("Assign task: {}", taskId);
         taskService.assignTask(taskId, userId);
         return ResponseEntity.noContent().build();

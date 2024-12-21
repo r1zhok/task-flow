@@ -6,19 +6,19 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8085
+        url: ${admin.server-url}
         instance:
-          name: catalogue-service
+          name: task-service
           service-host-type: ip
         enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/task_db
-    username: user
-    password: password
+    url: jdbc:postgresql://${postgres.server-url}/${postgres.db}
+    username: ${postgres.username}
+    password: ${postgres.password}
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   security:
     oauth2:
       resourceserver:
@@ -49,9 +49,6 @@ spring:
             issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
   kafka:
     bootstrap-servers: ${kafka.bootstrap-servers}
-tpd:
-  topic-name: task-notification-topic
-  messages-per-request: 10
 management:
   health:
     livenessstate:

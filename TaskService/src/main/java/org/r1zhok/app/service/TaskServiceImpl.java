@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void createTask(TaskPayload task, String userId) {
         taskRepository.save(taskMapper.convertPayloadToEntity(task, userId));
-        kafkaSender.sendMessage("createTask", task.title());
+        kafkaSender.sendMessage(task.title(), "createTask");
     }
 
     @Override

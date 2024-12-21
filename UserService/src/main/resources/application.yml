@@ -8,7 +8,7 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8085
+        url: ${admin.server-url}
         instance:
           name: user-service
           service-host-type: ip
@@ -38,6 +38,8 @@ spring:
             authorization-grant-type: client_credentials
             scope:
               - metrics
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
 jwt:
   auth:
     converter:
