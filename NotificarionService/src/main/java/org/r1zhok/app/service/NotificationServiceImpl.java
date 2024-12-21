@@ -23,20 +23,29 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @KafkaListener(topics = "updateTask", groupId = "group1")
     public void updateTask(String message) {
         keycloakService.getAllUsers()
                 .forEach(user -> sendNotification(user.getEmail(), "task updated", message));
     }
 
     @Override
+    @KafkaListener(topics = "deleteTask", groupId = "group1")
     public void deleteTask(String message) {
         keycloakService.getAllUsers()
                 .forEach(user -> sendNotification(user.getEmail(), "task deleted", message));
     }
 
     @Override
+    @KafkaListener(topics = "assignTask", groupId = "group1")
     public void assignTask(String userId) {
         sendNotification(keycloakService.getUser(userId).getEmail(), "Task assign to you", "check active tasks");
+    }
+
+    @Override
+    @KafkaListener(topics = "createUser", groupId = "group1")
+    public void createUser(String userId) {
+        sendNotification(keycloakService.getUser(userId).getEmail(), "Welcome to TaskFlow", "Create tasks or discover existing");
     }
 
     @Override

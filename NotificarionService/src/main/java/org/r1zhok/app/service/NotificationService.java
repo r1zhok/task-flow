@@ -10,5 +10,7 @@ public interface NotificationService {
 
     void assignTask(String userId);
 
+    void createUser(String message);
+
     void sendNotification(String userEmail, String title, String message);
 }

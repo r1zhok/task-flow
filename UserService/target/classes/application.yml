@@ -38,6 +38,8 @@ spring:
             authorization-grant-type: client_credentials
             scope:
               - metrics
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
 jwt:
   auth:
     converter:

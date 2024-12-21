@@ -5,6 +5,7 @@ import jakarta.ws.rs.NotAuthorizedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.r1zhok.app.config.KafkaSender;
 import org.r1zhok.app.controller.payload.UserLoginPayload;
 import org.r1zhok.app.controller.payload.UserRegisterPayload;
 import org.r1zhok.app.controller.response.AllUsersResponse;
@@ -23,6 +24,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserMapper mapper;
+
+    private final KafkaSender kafkaSender;
 
     private final KeycloakService keycloakService;
 
@@ -43,6 +46,7 @@ public class UserServiceImpl implements UserService {
             log.error("User creation failed");
             throw new UserCreationFailedException("Something wrong, please try later");
         }
+        kafkaSender.sendMessage(payload.email(), "createUser");
         log.info("User created");
     }
 
