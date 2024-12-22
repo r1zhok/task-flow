@@ -81,6 +81,14 @@ services:
     depends_on:
       - zookeeper
 
+  cache:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+
 networks:
   local_network:
     driver: bridge
