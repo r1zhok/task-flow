@@ -48,6 +48,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskEntity> listTasksForServices() {
+        return StreamSupport.stream(taskRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public TaskDetailResponse detailTask(Long id) {
         return taskMapper.convertEntityToDetailResponse(taskRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Task not found"))

@@ -34,14 +34,7 @@ public class SecurityBeans {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/tasks/create", "/api/tasks/list-for-service", "/api/tasks/delete/",
-                                "/api/tasks/update", "/api/tasks/list", "/api/tasks/detail/",
-                                "/api/tasks/set-status/")
-                        .authenticated()
-                        .requestMatchers("/api/tasks/assign/", "/v3/api-docs/**",
-                                "/configuration/**", "/swagger-ui/**",
-                                "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**"
-                        ).hasRole("ADMIN")
+                        .requestMatchers("/**").hasRole("ADMIN")
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
