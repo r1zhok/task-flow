@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.r1zhok.app.controller.payload.TaskPayload;
 import org.r1zhok.app.controller.response.TaskDetailResponse;
 import org.r1zhok.app.controller.response.TaskResponse;
+import org.r1zhok.app.entity.TaskEntity;
 import org.r1zhok.app.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,11 @@ public class TaskRestController {
     @GetMapping("/list")
     public ResponseEntity<List<TaskResponse>> listTasks() {
         return ResponseEntity.ok(taskService.listTasks());
+    }
+
+    @GetMapping("/list-for-service")
+    public ResponseEntity<List<TaskEntity>> listTasksForService() {
+        return ResponseEntity.ok(taskService.listTasksForServices());
     }
 
     @GetMapping("/detail/{id}")
