@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public void createTask(TaskPayload task, String userId) {
         taskRepository.save(taskMapper.convertPayloadToEntity(task, userId));
-        kafkaSender.sendMessage(task.title(), "createTask");
+        kafkaSender.sendMessageForNotificationService(task.title(), "createTask");
     }
 
     @Override
@@ -73,7 +73,7 @@ public class TaskServiceImpl implements TaskService {
                             throw new NoSuchElementException();
                         }
                 );
-        kafkaSender.sendMessage("updateTask", task.title());
+        kafkaSender.sendMessageForNotificationService("updateTask", task.title());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long id) {
         TaskEntity task = taskRepository.findById(id).orElseThrow(() -> new NotFoundException("Task not found"));
         taskRepository.deleteById(id);
-        kafkaSender.sendMessage("deleteTask", task.getTitle());
+        kafkaSender.sendMessageForNotificationService("deleteTask", task.getTitle());
     }
 
     @Override
@@ -101,7 +101,7 @@ public class TaskServiceImpl implements TaskService {
         }, () -> {
             throw new NoSuchElementException();
         });
-        kafkaSender.sendMessage("assignTask", userId);
+        kafkaSender.sendMessageForNotificationService("assignTask", userId);
     }
 
     @Override
