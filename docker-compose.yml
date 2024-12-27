@@ -89,6 +89,38 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
 
+  elasticsearch:
+    image: elasticsearch:8.10.2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1000m"
+        max-file: "10"
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - node.name=elasticsearch-node
+      - discovery.seed_hosts=elasticsearch-node
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms4096m -Xmx4096m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    networks:
+      - local_network
+
 networks:
   local_network:
-    driver: bridge
+    driver: bridge'
+volumes:
+  elasticsearch:
+  db:
+  logstash:

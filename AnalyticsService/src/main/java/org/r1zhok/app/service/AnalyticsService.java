@@ -1,7 +1,6 @@
 package org.r1zhok.app.service;
 
 import org.r1zhok.app.controller.response.TaskSummaryResponse;
-import org.r1zhok.app.controller.response.TeamProgressResponse;
 import org.r1zhok.app.controller.response.UserProgressResponse;
 
 public interface AnalyticsService {
@@ -10,5 +9,5 @@ public interface AnalyticsService {
 
     UserProgressResponse userProgress(String userId);
 
-    TeamProgressResponse teamProgress();
+    void clearCache();
 }

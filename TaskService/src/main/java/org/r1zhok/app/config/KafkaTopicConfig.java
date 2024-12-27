@@ -27,4 +27,9 @@ public class KafkaTopicConfig {
     public NewTopic assignTaskTopic() {
         return TopicBuilder.name("assignTask").build();
     }
+
+    @Bean
+    public NewTopic createLogTopic() {
+        return TopicBuilder.name("createLog").build();
+    }
 }

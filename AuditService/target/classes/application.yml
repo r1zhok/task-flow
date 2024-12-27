@@ -1,0 +1,61 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: audit-service
+  boot:
+    admin:
+      client:
+        url: ${admin.server-url}
+        instance:
+          name: notification-service
+          service-host-type: ip
+        enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+      client:
+        registration:
+          keycloak:
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+          metrics:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
+  elasticsearch:
+    uris: ${elasticsearch.server-url}
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${eureka.server-url}/eureka/

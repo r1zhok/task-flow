@@ -1,0 +1,13 @@
+keycloak:
+  server-url: http://localhost:7080
+  realm: task-flow
+  client-id: audit-service
+  client-secret: mnOLDlmIePeyumbMPuiHbRVnuWFGkl6o
+eureka:
+  server-url: http://localhost:8761
+kafka:
+  bootstrap-servers: localhost:9092
+admin:
+  server-url: http://localhost:8085
+elasticsearch:
+  server-url: http://localhost:9200
