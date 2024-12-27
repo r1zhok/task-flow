@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
             log.error("User creation failed");
             throw new UserCreationFailedException("Something wrong, please try later");
         }
-        kafkaSender.sendMessage(payload.email(), "createUser");
+        kafkaSender.sendMessageForNotificationService(payload.email(), "createUser");
         log.info("User created");
     }
 

@@ -2,10 +2,9 @@ package org.r1zhok.app.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -29,6 +28,6 @@ public class LogEntity {
     @Field(type = FieldType.Text, name = "performed_by")
     private String performedBy;
 
-    @Field(type = FieldType.Date)
-    private LocalDateTime timestamp;
+    @Field(type = FieldType.Date, format = DateFormat.date)
+    private LocalDate timestamp;
 }

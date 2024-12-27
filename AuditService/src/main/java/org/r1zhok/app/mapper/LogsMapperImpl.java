@@ -1,5 +1,6 @@
 package org.r1zhok.app.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.r1zhok.app.controller.response.LogDetailsResponse;
 import org.r1zhok.app.controller.response.LogsResponse;
 import org.r1zhok.app.entity.LogEntity;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class LogsMapperImpl implements LogsMapper {
 

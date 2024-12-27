@@ -1,6 +1,6 @@
 package org.r1zhok.app.controller.response;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 
 public record LogDetailsResponse(
@@ -8,6 +8,6 @@ public record LogDetailsResponse(
         String action,
         Map<String, Object> details,
         String performedBy,
-        LocalDateTime timestamp
+        LocalDate timestamp
 ) {
 }
