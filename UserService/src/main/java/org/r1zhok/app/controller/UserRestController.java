@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class UserRestController {
                 "register",
                 Map.of("user", payload),
                 payload.email(),
-                LocalDateTime.now()
+                LocalDate.now()
         ), "createLog");
         userService.registerUser(payload);
         return ResponseEntity.created(URI.create("/api/users/login")).build();
@@ -63,7 +64,7 @@ public class UserRestController {
                 "login",
                 Map.of("user", payload),
                 payload.username(),
-                LocalDateTime.now()
+                LocalDate.now()
         ), "createLog");
         return ResponseEntity.ok(userService.loginUser(payload));
     }
@@ -83,7 +84,7 @@ public class UserRestController {
                 "update-profile",
                 Map.of("user", payload),
                 payload.username(),
-                LocalDateTime.now()
+                LocalDate.now()
         ), "createLog");
         userService.updateProfile(payload, principal.getName());
         return ResponseEntity.noContent().build();
@@ -100,7 +101,7 @@ public class UserRestController {
                 "assign-role",
                 Map.of("userId", id, "roles", roles),
                 principal.getName(),
-                LocalDateTime.now()
+                LocalDate.now()
         ), "createLog");
         userService.setRole(id, roles);
         return ResponseEntity.noContent().build();
@@ -114,7 +115,7 @@ public class UserRestController {
                 "delete-profile",
                 null,
                 principal.getName(),
-                LocalDateTime.now()
+                LocalDate.now()
         ), "createLog");
         userService.deleteUser(principal.getName());
         return ResponseEntity.noContent().build();
@@ -131,7 +132,7 @@ public class UserRestController {
                 "admin-delete-profile",
                 null,
                 principal.getName(),
-                LocalDateTime.now()
+                LocalDate.now()
         ), "createLog");
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
