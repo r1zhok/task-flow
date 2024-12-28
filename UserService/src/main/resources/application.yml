@@ -56,6 +56,9 @@ management:
       enabled: true
     readinessstate:
       enabled: true
+  endpoint:
+    health:
+      show-details: ALWAYS
   endpoints:
     web:
       exposure:

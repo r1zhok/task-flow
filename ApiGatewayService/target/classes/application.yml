@@ -1,18 +1,8 @@
 server:
-  port: 8080
+  port: 8081
 spring:
   application:
-    name: user-service
-  thymeleaf:
-    enabled: false
-  boot:
-    admin:
-      client:
-        url: ${admin.server-url}
-        instance:
-          name: user-service
-          service-host-type: ip
-        enabled: true
+    name: api-gateway-service
   security:
     oauth2:
       resourceserver:
@@ -21,16 +11,13 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
             user-name-attribute: preferred_username
+            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
         registration:
-          discovery:
-            provider: keycloak
+          keycloak:
             client-id: ${keycloak.client-id}
             client-secret: ${keycloak.client-secret}
             authorization-grant-type: client_credentials
-            scope:
-              - discovery
           metrics:
             provider: keycloak
             client-id: ${keycloak.client-id}
@@ -38,28 +25,33 @@ spring:
             authorization-grant-type: client_credentials
             scope:
               - metrics
-  kafka:
-    bootstrap-servers: ${kafka.bootstrap-servers}
-jwt:
-  auth:
-    converter:
-      resource-id: ${keycloak.client-id}
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+    discovery:
+      enabled: true
+  main:
+    web-application-type: reactive
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
 eureka:
   client:
     service-url:
       defaultZone: ${eureka.server-url}/eureka/
   instance:
     prefer-ip-address: true
-management:
-  health:
-    livenessstate:
-      enabled: true
-    readinessstate:
-      enabled: true
-  endpoint:
-    health:
-      show-details: ALWAYS
-  endpoints:
-    web:
-      exposure:
-        include: '*'
