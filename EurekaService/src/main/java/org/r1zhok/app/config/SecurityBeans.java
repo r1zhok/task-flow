@@ -1,7 +1,6 @@
 package org.r1zhok.app.config;
 
 import jakarta.annotation.Priority;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -11,10 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@RequiredArgsConstructor
 public class SecurityBeans {
-
-    private final JwtAuthConverter jwtAuthConverter;
 
     @Bean
     @Priority(0)
@@ -48,12 +44,11 @@ public class SecurityBeans {
     @Priority(2)
     public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .oauth2Client(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .anyRequest().hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 )
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
+                .csrf(CsrfConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 }
