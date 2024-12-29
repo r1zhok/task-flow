@@ -18,6 +18,20 @@ public class SecurityBeans {
 
     @Bean
     @Priority(0)
+    public SecurityFilterChain metricsSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/actuator/**")
+                .authorizeHttpRequests(request -> request
+                        .anyRequest().hasAnyAuthority("SCOPE_metrics")
+                )
+                .oauth2ResourceServer(customizer -> customizer.jwt(Customizer.withDefaults()))
+                .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(CsrfConfigurer::disable)
+                .build();
+    }
+
+    @Bean
+    @Priority(1)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/eureka/apps", "/eureka/apps/**")
@@ -31,10 +45,9 @@ public class SecurityBeans {
     }
 
     @Bean
-    @Priority(1)
+    @Priority(2)
     public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/**")
                 .oauth2Client(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .anyRequest().hasRole("ADMIN")

@@ -5,14 +5,6 @@ spring:
     name: user-service
   thymeleaf:
     enabled: false
-  boot:
-    admin:
-      client:
-        url: ${admin.server-url}
-        instance:
-          name: user-service
-          service-host-type: ip
-        enabled: true
   security:
     oauth2:
       resourceserver:
@@ -50,6 +42,9 @@ eureka:
       defaultZone: ${eureka.server-url}/eureka/
   instance:
     prefer-ip-address: true
+    metadata-map:
+      management.port: ${server.port}
+      management.context-path: ${management.endpoints.web.base-path:/actuator}
 management:
   health:
     livenessstate:

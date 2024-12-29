@@ -3,6 +3,16 @@ server:
 spring:
   application:
     name: admin-service
+  boot:
+    admin:
+      client:
+        instance:
+          service-host-type: ip
+      discovery:
+        enabled: true
+        ignored-services: admin-service
+        converter:
+          management-context-path: "/actuator"
   security:
     oauth2:
       resourceserver:
@@ -26,20 +36,20 @@ spring:
             authorization-grant-type: client_credentials
             scope:
               - discovery
-jwt:
-  auth:
-    converter:
-      resource-id: ${keycloak.client-id}
 management:
   endpoints:
     web:
       exposure:
-        include:
-          - health
-          - prometheus
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    prefer-ip-address: true
   client:
     service-url:
+      registryFetchIntervalSeconds: 5
       defaultZone: ${eureka.server-url}/eureka/
-  instance:
-    prefer-ip-address: true
