@@ -3,14 +3,6 @@ server:
 spring:
   application:
     name: audit-service
-  boot:
-    admin:
-      client:
-        url: ${admin.server-url}
-        instance:
-          name: notification-service
-          service-host-type: ip
-        enabled: true
   security:
     oauth2:
       resourceserver:

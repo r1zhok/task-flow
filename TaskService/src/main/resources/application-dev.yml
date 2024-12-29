@@ -7,8 +7,6 @@ eureka:
   server-url: http://localhost:8761
 kafka:
   bootstrap-servers: localhost:9092
-admin:
-  server-url: http://localhost:8085
 postgres:
   server-url: localhost:5432
   db: task_db

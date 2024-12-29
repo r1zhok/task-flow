@@ -1,0 +1,57 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: api-gateway-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+      client:
+        provider:
+          keycloak:
+            user-name-attribute: preferred_username
+            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+        registration:
+          keycloak:
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+          metrics:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+    discovery:
+      enabled: true
+  main:
+    web-application-type: reactive
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - prometheus
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.server-url}/eureka/
+  instance:
+    prefer-ip-address: true

@@ -5,8 +5,6 @@ keycloak:
   client-secret: bkNriWXAEWq6o8OvLNK3fQ6SDquo1aj7
 eureka:
   server-url: http://localhost:8761
-admin:
-  server-url: http://localhost:8085
 task:
   server-url: lb://task-service
   registration-id: keycloak

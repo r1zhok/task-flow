@@ -1,0 +1,65 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: jdbc:postgresql://${postgres.server-url}/${postgres.db}
+    username: ${postgres.username}
+    password: ${postgres.password}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+      client:
+        registration:
+          keycloak:
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+          discovery:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - discovery
+          metrics:
+            provider: keycloak
+            client-id: ${keycloak.client-id}
+            client-secret: ${keycloak.client-secret}
+            authorization-grant-type: client_credentials
+            scope:
+              - metrics
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
+  kafka:
+    bootstrap-servers: ${kafka.bootstrap-servers}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.sender-mail-address}
+    password: ${mail.sender-mail-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+management:
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${eureka.server-url}/eureka/
