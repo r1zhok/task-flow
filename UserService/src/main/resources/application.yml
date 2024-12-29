@@ -32,10 +32,6 @@ spring:
               - metrics
   kafka:
     bootstrap-servers: ${kafka.bootstrap-servers}
-jwt:
-  auth:
-    converter:
-      resource-id: ${keycloak.client-id}
 eureka:
   client:
     service-url:
