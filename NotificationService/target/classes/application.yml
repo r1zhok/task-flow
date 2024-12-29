@@ -1,16 +1,12 @@
 server:
-  port: 8082
+  port: 8083
 spring:
   application:
-    name: task-service
+    name: notification-service
   datasource:
     url: jdbc:postgresql://${postgres.server-url}/${postgres.db}
     username: ${postgres.username}
     password: ${postgres.password}
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
   security:
     oauth2:
       resourceserver:
@@ -41,6 +37,16 @@ spring:
             issuer-uri: ${keycloak.server-url}/realms/${keycloak.realm}
   kafka:
     bootstrap-servers: ${kafka.bootstrap-servers}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.sender-mail-address}
+    password: ${mail.sender-mail-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
 management:
   health:
     livenessstate:

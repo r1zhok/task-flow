@@ -3,14 +3,6 @@ server:
 spring:
   application:
     name: task-service
-  boot:
-    admin:
-      client:
-        url: ${admin.server-url}
-        instance:
-          name: task-service
-          service-host-type: ip
-        enabled: true
   datasource:
     url: jdbc:postgresql://${postgres.server-url}/${postgres.db}
     username: ${postgres.username}
