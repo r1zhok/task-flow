@@ -1,23 +1,17 @@
 package org.r1zhok.app.config;
 
 import jakarta.annotation.Priority;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final JwtAuthConverter jwtAuthConverter;
 
     @Bean
     @Priority(0)
@@ -36,19 +30,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/users/profile").authenticated()
-                        .requestMatchers("/api/users/assign-role/**", "/api/users", "/v3/api-docs/**",
-                                "/configuration/**", "/swagger-ui/**",
-                                "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/api-docs/**"
-                        ).hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
-                .csrf(CsrfConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(AbstractHttpConfigurer::disable)
                 .build();
     }
 }

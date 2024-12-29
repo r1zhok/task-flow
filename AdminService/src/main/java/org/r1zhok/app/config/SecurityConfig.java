@@ -19,8 +19,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthConverter jwtAuthConverter;
-
     @Bean
     public OAuthHttpHeadersProvider authHttpHeadersProvider(
             ClientRegistrationRepository clientRegistrationRepository,
@@ -57,10 +55,7 @@ public class SecurityConfig {
     @Priority(1)
     public SecurityFilterChain uiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .oauth2Client(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer
-                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
-                .authorizeHttpRequests(customizer -> customizer.anyRequest().hasRole("ADMIN"))
+                .authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll())
                 .build();
     }
 }
