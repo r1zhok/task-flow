@@ -1,0 +1,21 @@
+FROM maven:3.9.5-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+COPY pom.xml /app
+
+COPY ./TaskService /app/TaskService
+
+RUN mvn dependency:go-offline -pl TaskService -am -DskipTests
+
+RUN mvn clean install -pl TaskService -am -DskipTests
+
+FROM eclipse-temurin:21
+
+WORKDIR /app
+
+COPY --from=build /app/TaskService/target/TaskService-1.0-SNAPSHOT.jar app.jar
+
+EXPOSE 8082
+
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

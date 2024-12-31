@@ -1,0 +1,7 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  client-id: api-gateway-service
+  client-secret: k3aYIJY66SldK7xSXYnpMLgO1IjhkbIm
+eureka:
+  server-url: http://eureka:8761

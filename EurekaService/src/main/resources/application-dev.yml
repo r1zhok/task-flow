@@ -1,6 +1,7 @@
 keycloak:
   server-url: http://localhost:7080
   realm: task-flow
-  eureka-client-id: eureka-service
-  eureka-client-secret: xTW9BgOX5vYiCGtp3q5hKZOOKVIm0zNl
-  client-id: user-service
+  eureka-client-id: eureka-service-dev
+  eureka-client-secret: 3aUbS1dows260G3eNF9JkiM7d461rdov
+eureka:
+  hostname: localhost

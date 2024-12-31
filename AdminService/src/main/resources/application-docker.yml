@@ -1,0 +1,7 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  admin-client-id: admin-service-docker
+  admin-client-secret: tP7Mxq2mDRd7ndIMkriPhbmmQ2b9oUyI
+eureka:
+  server-url: http://eureka:8761

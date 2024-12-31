@@ -1,0 +1,11 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  client-id: audit-service-docker
+  client-secret: I3P6FV3Cg0YRl0OBQBvIrsbKjVpwzeYP
+eureka:
+  server-url: http://eureka:8761
+kafka:
+  bootstrap-servers: kafka:9092
+elasticsearch:
+  server-url: http://elasticsearch:9200

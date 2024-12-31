@@ -1,8 +1,8 @@
 keycloak:
   server-url: http://localhost:7080
   realm: task-flow
-  client-id: audit-service
-  client-secret: mnOLDlmIePeyumbMPuiHbRVnuWFGkl6o
+  client-id: audit-service-dev
+  client-secret: gAKA73mSPbu46ZH5rMsdeRRLcKTAiKb8
 eureka:
   server-url: http://localhost:8761
 kafka:
