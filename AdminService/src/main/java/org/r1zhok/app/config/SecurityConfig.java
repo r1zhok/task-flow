@@ -56,6 +56,8 @@ public class SecurityConfig {
     public SecurityFilterChain uiSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(customizer -> customizer.anyRequest().permitAll())
+                .csrf(CsrfConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
     }
 }

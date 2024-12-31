@@ -1,31 +1,7 @@
-# Використовуємо Maven для побудови проєкту
-FROM maven:3.9.5-eclipse-temurin-21 AS build
-
-WORKDIR /app
-
-# Копіюємо батьківський pom.xml у корінь
-COPY pom.xml /app
-
-# Копіюємо весь мікросервіс UserService, включаючи дочірній pom.xml
-COPY ./UserService /app/UserService
-COPY ./EurekaService /app/EurekaService
-
-# Виконуємо ціль mvn install для завантаження залежностей
-RUN mvn -f /app/pom.xml clean install -DskipTests
-
-# Збираємо мікросервіс, включаючи всі залежності
-RUN mvn -f /app/UserService/pom.xml clean package -DskipTests
-
-# Використовуємо легковаговий JRE для запуску
 FROM eclipse-temurin:21
 
-WORKDIR /app
+ADD /UserService/target/UserService-1.0-SNAPSHOT.jar app.jar
 
-# Копіюємо зібраний JAR файл з попереднього етапу
-COPY --from=build /app/UserService/target/UserService-1.0-SNAPSHOT.jar app.jar
-
-# Вказуємо порти для сервісу
 EXPOSE 8080
 
-# Запуск програми
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]

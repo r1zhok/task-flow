@@ -1,7 +1,7 @@
 keycloak:
   server-url: http://localhost:7080
   realm: task-flow
-  client-id: api-gateway-service
-  client-secret: aG77wPueZjeOtSgHvq0WVDfNptNC9axl
+  client-id: api-gateway-service-dev
+  client-secret: Z1eYoadpln5MnSIePJbLU1tX48Dqg8Ck
 eureka:
   server-url: http://localhost:8761

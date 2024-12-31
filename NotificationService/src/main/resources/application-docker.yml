@@ -1,0 +1,17 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  client-id: user-service-docker
+  client-secret: eVfXpbLnjCnqMEwqyRtLDcCiJZ9f8OSw
+eureka:
+  server-url: http://eureka:8761
+kafka:
+  bootstrap-servers: kafka:9092
+postgres:
+  server-url: database_task:5432
+  db: task_db
+  username: user
+  password: password
+mail:
+  sender-mail-address: o4945619@gmail.com
+  sender-mail-password: movs ytxf mvpr asxr

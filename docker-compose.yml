@@ -8,10 +8,6 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    networks:
-      - local_network
-    depends_on:
-      - eureka
 
   eureka:
     container_name: eureka-service
@@ -22,8 +18,93 @@ services:
       - "8761:8761"
     environment:
       SPRING_PROFILES_ACTIVE: docker
-    networks:
-      - local_network
+
+  task-service:
+    container_name: task-service
+    build:
+      context: .
+      dockerfile: DockerfileTaskService
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - eureka
+      - api-gateway-service
+      - admin-service
+      - kafka
+      - database_task
+
+  notification-service:
+    container_name: notification-service
+    build:
+      context: .
+      dockerfile: DockerfileNotificationService
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - eureka
+      - api-gateway-service
+      - admin-service
+      - kafka
+
+  audit-service:
+    container_name: audit-service
+    build:
+      context: .
+      dockerfile: DockerfileAuditService
+    ports:
+      - "8086:8086"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - eureka
+      - api-gateway-service
+      - admin-service
+      - elasticsearch
+      - kafka
+
+  analytics-service:
+    container_name: analytics-service
+    build:
+      context: .
+      dockerfile: DockerfileAnalyticsService
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - eureka
+      - api-gateway-service
+      - admin-service
+      - cache
+
+  admin-service:
+    container_name: admin-service
+    build:
+      context: .
+      dockerfile: DockerfileAdminService
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - eureka
+
+  api-gateway-service:
+    container_name: api-gateway-service
+    build:
+      context: .
+      dockerfile: DockerfileNotificationService
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - eureka
+      - admin-service
 
   database_task:
     container_name: task_db
@@ -39,7 +120,6 @@ services:
     container_name: keycloak
     image: quay.io/keycloak/keycloak:24.0
     environment:
-      KC_HOSTNAME: localhost
       KC_HOSTNAME_PORT: 7080
       KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
       KEYCLOAK_ADMIN: admin
@@ -55,8 +135,6 @@ services:
     ports:
       - "7080:7080"
       - "7443:7443"
-    networks:
-      - local_network
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
@@ -75,8 +153,8 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     depends_on:
       - zookeeper
@@ -114,13 +192,3 @@ services:
     ports:
       - "9200:9200"
       - "9600:9600"
-    networks:
-      - local_network
-
-networks:
-  local_network:
-    driver: bridge'
-volumes:
-  elasticsearch:
-  db:
-  logstash:

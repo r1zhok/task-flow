@@ -1,5 +1,7 @@
 keycloak:
   server-url: http://keycloak:7080
   realm: task-flow
-  client-id: eureka-service
-  client-secret: xTW9BgOX5vYiCGtp3q5hKZOOKVIm0zNl
+  eureka-client-id: eureka-service-docker
+  eureka-client-secret: J5iYla735fTC6a102iMlzh7xX9PkFfTu
+eureka:
+  hostname: eureka

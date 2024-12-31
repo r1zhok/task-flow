@@ -1,7 +1,9 @@
 keycloak:
   server-url: http://keycloak:7080
   realm: task-flow
-  client-id: user-service
-  client-secret: xLvjqXFSAK5PunT5wAN4ufABXRtFjnms
+  client-id: user-service-docker
+  client-secret: eVfXpbLnjCnqMEwqyRtLDcCiJZ9f8OSw
 eureka:
   server-url: http://eureka:8761
+kafka:
+  bootstrap-servers: kafka:9092

@@ -1,0 +1,14 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  client-id: task-service-docker
+  client-secret: NFbMs1Sk1jAjh549ni94xhzmj2v0Howu
+eureka:
+  server-url: http://eureka:8761
+kafka:
+  bootstrap-servers: kafka:9092
+postgres:
+  server-url: database-task:5432
+  db: task_db
+  username: user
+  password: password
