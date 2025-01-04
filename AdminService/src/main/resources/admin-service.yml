@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: admin-service
+  profiles:
+    active: dev
+---
+spring:
+  config:
+    import: configserver:http://admin:admin@localhost:8888
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    import: configserver:http://admin:admin@localhost:8888
+    activate:
+      on-profile: docker
