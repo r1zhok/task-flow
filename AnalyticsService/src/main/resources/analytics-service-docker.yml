@@ -1,0 +1,13 @@
+keycloak:
+  server-url: http://keycloak:7080
+  realm: task-flow
+  client-id: analytics-service-docker
+  client-secret: TeGHUFOrpLu8upcmyOt38WUJDCh7TSMN
+eureka:
+  server-url: http://eureka:8761
+task:
+  server-url: lb://task-service
+  registration-id: keycloak
+redis:
+  host: cache
+  port: 6379
